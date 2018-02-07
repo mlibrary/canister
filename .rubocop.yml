@@ -1,0 +1,144 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.3
+  Exclude:
+    - '*.gemspec'
+
+Naming/FileName:
+  ExpectMatchingDefinition: true
+  Exclude:
+    - 'bin/**/*'
+    - 'spec/**/*'
+    - 'lib/*/version.rb'
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+
+# We disable this cop because we want to use Pathname#/
+# and this cop is not configurable at all.
+Layout/SpaceAroundOperators:
+  Enabled: false
+
+Security/YAMLLoad:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Metrics/LineLength:
+  Max: 100
+  AllowHeredoc: true
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+Layout/ElseAlignment:
+  Enabled: false
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: nested
+
+Style/CommentAnnotation:
+  Enabled: false
+
+# Does not work for multi-line copyright notices.
+Style/Copyright:
+  Enabled: false
+
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+# These two cops do not differentiate between the scope the file is describing
+# and any namespaces it is nested under.  If this is not acceptable,
+# no_empty_lines produces the least offensive results.
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+# Produces poor results.
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+  EnforcedLastArgumentHashStyle: always_ignore
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+# Produces poor results.
+Style/Next:
+  Enabled: false
+
+Style/RedundantReturn:
+  AllowMultipleReturnValues: true
+
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
+Style/Semicolon:
+  AllowAsExpressionSeparator: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Layout/SpaceInsideBlockBraces:
+  SpaceBeforeBlockParameters: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Lint/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+  #EnforcedStyleAlignWith: start_of_line
+
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+
+Lint/DefEndAlignment:
+  EnforcedStyleAlignWith: def
+
+Performance/RedundantMerge:
+  Enabled: false
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
