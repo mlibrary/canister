@@ -1,21 +1,21 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "closet/version"
+require "canister/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "closet"
-  spec.version       = Closet::VERSION
+  spec.name          = "canister"
+  spec.version       = Canister::VERSION
   spec.authors       = ["Bryan Hockey"]
   spec.email         = ["bhock@umich.edu"]
 
   spec.summary       = %q{A simple IoC container for ruby.}
   spec.description   = %q{
-    Closet is a simple IoC container for ruby. It has no dependencies and provides only
+    Canister is a simple IoC container for ruby. It has no dependencies and provides only
     the functionality you need. It does not monkey-patch ruby or pollute the global
     namespace, and most importantly it expects to be invisible to your domain classes.
   }
-  spec.homepage      = "https://github.com/mlibrary/closet"
+  spec.homepage      = "https://github.com/mlibrary/canister"
   spec.license       = "Revised BSD"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

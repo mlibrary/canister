@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "closet/version"
+require "canister/version"
 
 # A container that registers keys to values that are
 # resolved at runtime. This allows for out-of-order declaration,
 # automatic dependency resolution, and--upon
 # redeclaration--automatic dependency cache invalidation.
-class Closet
+class Canister
 
   def initialize
     @stack = []

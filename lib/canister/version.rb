@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Closet
-  VERSION = "0.1.0"
+class Canister
+  VERSION = "0.9.0"
 end
