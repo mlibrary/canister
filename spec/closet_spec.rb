@@ -57,6 +57,13 @@ RSpec.describe Closet do
     expect { closet.foo  }.to raise_error(NoMethodError)
   end
 
+  it "correctly answers #respond_to?" do
+    closet.register(:bar) { "bar" }
+    expect(closet.respond_to?(:to_s)).to be true
+    expect(closet.respond_to?(:foo)).to be false
+    expect(closet.respond_to?(:bar)).to be true
+  end
+
   it "#keys returns the keys" do
     closet.register(:foo) { :bar }
     closet.register(:alice) { :bob }
