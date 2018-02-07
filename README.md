@@ -31,7 +31,7 @@ all of your classes such that they except a single parameter called `container`.
 
 For more information on dependency injection and inversion of control containers in
 ruby, please see
-[this excellent article](https://gist.github.com/blairanderson/8072d951a480a590f0bd)
+[this excellent article](https://gist.github.com/malakai97/b1d3bdf6d80c6f99a875930981243f9d)
 by [Blair Anderson](https://github.com/blairanderson) that both sums up the issue
 and was the inspiration for this gem.
 
@@ -87,7 +87,7 @@ the ruby core, it is compatible with every ruby library and framework.
 
 * The author and maintainer is [Bryan Hockey](https://github.com/malakai97)
 * This project was inspired by
-  [this excellent article](https://gist.github.com/blairanderson/8072d951a480a590f0bd)
+  [this excellent article](https://gist.github.com/malakai97/b1d3bdf6d80c6f99a875930981243f9d)
   by [Blair Anderson](https://github.com/blairanderson). (We are not affiliated, so
   don't blame him if this breaks.)
 
