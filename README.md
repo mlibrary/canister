@@ -1,5 +1,10 @@
 # Closet
 
+[![Build Status](https://travis-ci.org/mlibrary/closet.svg?branch=master)](https://travis-ci.org/mlibrary/closet)
+[![Maintainability](https://api.codeclimate.com/v1/badges/590e17334ea92100e297/maintainability)](https://codeclimate.com/github/mlibrary/closet/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/590e17334ea92100e297/test_coverage)](https://codeclimate.com/github/mlibrary/closet/test_coverage)
+
+
 ## Summary
 
 Closet is a simple IoC container for ruby. It has no dependencies and provides only
