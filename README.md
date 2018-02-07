@@ -1,9 +1,8 @@
 # Canister
 
 [![Build Status](https://travis-ci.org/mlibrary/canister.svg?branch=master)](https://travis-ci.org/mlibrary/canister)
-[![Maintainability](https://api.codeclimate.com/v1/badges/590e17334ea92100e297/maintainability)](https://codeclimate.com/github/mlibrary/canister/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/590e17334ea92100e297/test_coverage)](https://codeclimate.com/github/mlibrary/canister/test_coverage)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/1768a558bf69d2f40681/maintainability)](https://codeclimate.com/github/mlibrary/canister/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1768a558bf69d2f40681/test_coverage)](https://codeclimate.com/github/mlibrary/canister/test_coverage)
 
 ## Summary
 

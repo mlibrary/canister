@@ -11,7 +11,7 @@ branches:
 
 env:
   global:
-    - CC_TEST_REPORTER_ID=a492448053c934b2a3cfa2f86f3357491d11beda5499db7884ae13859870fd29
+    - CC_TEST_REPORTER_ID=65e5bfcf0bfc99d25884678a632843ef1c294493b2581c2cf72b1cebfdc9d9fb
 
 before_install: gem install bundler
 
