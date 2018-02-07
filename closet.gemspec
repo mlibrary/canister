@@ -9,10 +9,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Bryan Hockey"]
   spec.email         = ["bhock@umich.edu"]
 
-  spec.summary       = %q{summary}
-  spec.description   = %q{description}
-  #spec.homepage      = "homepage"
-  spec.license       = "MIT"
+  spec.summary       = %q{A simple IoC container for ruby.}
+  spec.description   = %q{
+    Closet is a simple IoC container for ruby. It has no dependencies and provides only
+    the functionality you need. It does not monkey-patch ruby or pollute the global
+    namespace, and most importantly it expects to be invisible to your domain classes.
+  }
+  spec.homepage      = "https://github.com/mlibrary/closet"
+  spec.license       = "Revised BSD"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
