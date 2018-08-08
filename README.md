@@ -19,14 +19,20 @@ It provides:
 
 ## Why do I need this? Especially in ruby?
 
-Canister was created to make it easier to declare our setup for our application's
+Canister was created to make it easier to declare the setup for an application's
 production and test environments in a single place, without needing to know
 when exactly those objects were created.
 
 *Canister is not a replacement for
 dependency injection.* Rather, it is useful when you have designed your objects
-to have their dependencies injected.  For example, it would be a *mistake* to write
-all of your classes such that they except a single parameter called `container`.
+to have their dependencies injected.
+
+The domain of your application is not concerned with the design
+patterns you use to implement it; therefore, the domain entities within in it should
+represent the domain, not the patterns.
+For example, it would be a *mistake* to write all of your classes such that they
+accept a single parameter called `container`.  `Car.new(container)` is undesirable
+when what your application really calls for is `Car.new(make, model, year)`.
 
 For more information on dependency injection and inversion of control containers in
 ruby, please see
