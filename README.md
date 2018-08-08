@@ -84,6 +84,7 @@ Standard rules apply.
 
 * ruby 2.3.x
 * ruby 2.4.x
+* ruby 2.5.x
 
 As Canister does not rely on any specific runtime environment other than
 the ruby core, it is compatible with every ruby library and framework.
