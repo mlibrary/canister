@@ -43,7 +43,19 @@ and was the inspiration for this gem.
 
 ## Installation
 
-Add it to your Gemfile and you're off to the races.
+Add it to your Gemfile and you're off to the races:
+
+```
+gem 'canister'
+```
+
+And then install via `bundler install`. 
+
+Or install it with the `gem` command:
+
+```
+$ gem install canister
+```
 
 ## Usage
 
