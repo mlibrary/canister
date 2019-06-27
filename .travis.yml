@@ -11,20 +11,9 @@ branches:
     - master
     - develop
 
-env:
-  global:
-    - CC_TEST_REPORTER_ID=65e5bfcf0bfc99d25884678a632843ef1c294493b2581c2cf72b1cebfdc9d9fb
-
 before_install: gem install bundler
-
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 
 script:
     - bundle exec rspec --order=random
 
-after_script:
-    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT || true
 
