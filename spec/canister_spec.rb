@@ -1,13 +1,14 @@
 # frozen_string_literal: true
+
 require_relative "spec_helper"
 require "canister"
 
 RSpec.describe Canister do
+  let(:canister) { described_class.new }
+
   it "has a version number" do
     expect(Canister::VERSION).not_to be nil
   end
-
-  let(:canister) { described_class.new }
 
   it "#new takes a block" do
     container = described_class.new do |c|
@@ -53,7 +54,7 @@ RSpec.describe Canister do
   end
 
   it "correctly sends method_missing for a missing key" do
-    expect { canister.to_s }.to_not raise_error
+    expect { canister.to_s }.not_to raise_error
     expect { canister.foo  }.to raise_error(NoMethodError)
   end
 
@@ -105,13 +106,6 @@ RSpec.describe Canister do
     canister.resolve(:c)
     canister.register(:a) { "x" }
     expect(canister.resolve(:c)).to eql("xb1xb2c")
-  end
-
-  it "allows nesting" do
-    canister.register(:a) { "a" }
-    canister.register(:b) {|c| c.a + "b" }
-    canister.register(:c) {|c| c.b + "c" }
-    expect(canister.resolve(:c)).to eql("abc")
   end
 
   it "ignores order" do

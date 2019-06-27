@@ -20,7 +20,7 @@ class Canister
 
   # We override method_missing to enable dot notation
   # for accessing registered values.
-  def method_missing(method, *args, &block)
+  def method_missing(method, *args, &block) # rubocop:disable Style/MethodMissingSuper
     if handles?(method)
       resolve(method)
     else
