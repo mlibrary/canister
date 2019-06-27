@@ -1,8 +1,8 @@
 # Canister
 
 [![Build Status](https://travis-ci.org/mlibrary/canister.svg?branch=master)](https://travis-ci.org/mlibrary/canister)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1768a558bf69d2f40681/maintainability)](https://codeclimate.com/github/mlibrary/canister/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/1768a558bf69d2f40681/test_coverage)](https://codeclimate.com/github/mlibrary/canister/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/mlibrary/canister/badge.svg?branch=master)](https://coveralls.io/github/mlibrary/canister?branch=master)
+[![API Docs](https://img.shields.io/badge/API_docs-rubydoc.info-blue.svg)](https://www.rubydoc.info/github/mlibrary/canister)
 
 ## Summary
 
