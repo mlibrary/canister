@@ -16,4 +16,7 @@ before_install: gem install bundler
 script:
     - bundle exec rspec --order=random
 
-
+matrix:
+  include:
+    - rvm: ruby-head
+      script: bundle exec rubocop

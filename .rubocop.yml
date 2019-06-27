@@ -1,21 +1,36 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.3
   Exclude:
+    - '.bundle/**/*'
+    - 'vendor/bundle/**/*'
     - '*.gemspec'
+    - 'spec/fixtures/**/*'
 
 Naming/FileName:
   ExpectMatchingDefinition: true
   Exclude:
     - 'bin/**/*'
+    - 'lib/core_extensions/**/*'
     - 'spec/**/*'
     - 'lib/*/version.rb'
+
+RSpec/FilePath:
+  Exclude:
+    - 'spec/**/*.rb' # rubocop error
 
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
+
+# Enabling this cop can break rescue statements in ruby <= 2.4
+Style/RedundantBegin:
+  Enabled: false
 
 # We disable this cop because we want to use Pathname#/
 # and this cop is not configurable at all.
@@ -30,7 +45,7 @@ Style/Alias:
   EnforcedStyle: prefer_alias_method
 
 Metrics/LineLength:
-  Max: 100
+  Max: 90
   AllowHeredoc: true
   AllowURI: true
   URISchemes:
@@ -39,15 +54,16 @@ Metrics/LineLength:
 
 Metrics/BlockLength:
   Exclude:
+    - 'spec/support/**/*.rb'
     - 'spec/**/*_spec.rb'
 
 Layout/ElseAlignment:
   Enabled: false
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   EnforcedStyle: consistent
 
-Layout/AlignParameters:
+Layout/AlignArguments:
   EnforcedStyle: with_fixed_indentation
 
 Layout/CaseIndentation:
@@ -58,6 +74,10 @@ Layout/ClosingParenthesisIndentation:
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: nested
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
 
 Style/CommentAnnotation:
   Enabled: false
@@ -84,10 +104,10 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
 
 Layout/AlignHash:
@@ -126,14 +146,13 @@ Layout/SpaceInsideBlockBraces:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-Lint/BlockAlignment:
+Layout/BlockAlignment:
   EnforcedStyleAlignWith: start_of_block
-  #EnforcedStyleAlignWith: start_of_line
 
-Lint/EndAlignment:
+Layout/EndAlignment:
   EnforcedStyleAlignWith: start_of_line
 
-Lint/DefEndAlignment:
+Layout/DefEndAlignment:
   EnforcedStyleAlignWith: def
 
 Performance/RedundantMerge:
@@ -142,3 +161,63 @@ Performance/RedundantMerge:
 Style/WordArray:
   EnforcedStyle: brackets
 
+Style/RescueModifier:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+# This cop just adds extra work when you want to write an integration test,
+# or test something like a jbuilder view.
+RSpec/DescribeClass:
+  Enabled: false
+
+# Using let! is fine, and can be easier to manage than a before block.
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/BeEql:
+  Enabled: false
+
+RSpec/ExampleWithoutDescription:
+  EnforcedStyle: single_line_only
+
+RSpec/HookArgument:
+  EnforcedStyle: each
+
+RSpec/ImplicitSubject:
+  EnforcedStyle: disallow
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: true
+  Max: 3
+
+# Change this as needed.
+RSpec/NestedGroups:
+  Max: 3
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/EmptyExampleGroup:
+  CustomIncludeMethods:
+    - it_allows
+    - it_disallows
+
+RSpec/ContextWording:
+  Prefixes:
+    - as
+    - when
+    - with
+    - without
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*.rb'
