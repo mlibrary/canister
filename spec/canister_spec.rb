@@ -114,4 +114,24 @@ RSpec.describe Canister do
     canister.register(:a) { "a" }
     expect(canister.resolve(:c)).to eql("abc")
   end
+
+  it "is apparently thread safe" do
+    threads = []
+    canister.register(:a) { "a" }
+    1000.times do
+      canister.register(:b) do |c|
+        threads << Thread.new do
+          loop do
+            sleep 0.1
+            c[:a]
+          end
+        end
+        "b"
+      end
+      canister.resolve(:b)
+    end
+    sleep 3
+    expect(canister.resolve(:b)).to eql("b")
+    threads.each(&:kill)
+  end
 end
