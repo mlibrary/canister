@@ -15,12 +15,13 @@ class Canister
     @dependents = Hash.new do |hash, key|
       hash[key] = []
     end
+    @mutex = Mutex.new
     yield self if block_given?
   end
 
   # We override method_missing to enable dot notation
   # for accessing registered values.
-  def method_missing(method, *args, &block) # rubocop:disable Style/MethodMissingSuper
+  def method_missing(method, *args, &block)
     if handles?(method)
       resolve(method)
     else
@@ -34,6 +35,14 @@ class Canister
     handles?(method) || super(method, include_all)
   end
 
+  def synchronize(&block)
+    if @mutex.owned?
+      yield
+    else
+      @mutex.synchronize(&block)
+    end
+  end
+
   # Register a value to a key by passing a block. Note that
   # the value will be that returned by the block. If the key
   # has been registered before, the old registration is
@@ -43,8 +52,11 @@ class Canister
   # @yield self [Container] Yields this container.
   # @return the value defined in the block
   def register(key, &block)
-    invalidate(key) if registered?(key)
-    registry[key.to_sym] = block
+    key = key.to_sym
+    synchronize do
+      invalidate(key) if registered?(key)
+      registry[key] = block
+    end
     self
   end
 
@@ -52,10 +64,14 @@ class Canister
   # the key. This value is memoized.
   # @param key [Symbol]
   def resolve(key)
-    add_dependent(key)
-    stack << key
-    value = resolved[key.to_sym] ||= registry[key.to_sym].call(self)
-    stack.pop
+    key = key.to_sym
+    value = nil
+    synchronize do
+      add_dependent(key)
+      stack << key
+      value = resolved[key] ||= registry[key].call(self)
+      stack.pop
+    end
     value
   end
   alias_method :[], :resolve
@@ -74,23 +90,25 @@ class Canister
 
   def add_dependent(key)
     unless stack.empty?
-      dependents[key.to_sym] << stack.last
+      dependents[key] << stack.last
     end
   end
 
   def registered?(key)
-    registry.key?(key.to_sym)
+    registry.key?(key)
   end
 
   def unresolve(key)
-    resolved.delete(key.to_sym)
+    resolved.delete(key)
   end
 
   def invalidate(key, first = true)
     unresolve(key)
-    dependents[key.to_sym]
+    dependents[key]
       .each {|child| invalidate(child, false) }
-    dependents.delete(key.to_sym) if first
+    if first
+      dependents.delete(key)
+    end
   end
 
 end
