@@ -55,7 +55,7 @@ RSpec.describe Canister do
 
   it "correctly sends method_missing for a missing key" do
     expect { canister.to_s }.not_to raise_error
-    expect { canister.foo  }.to raise_error(NoMethodError)
+    expect { canister.foo }.to raise_error(NoMethodError)
   end
 
   it "correctly answers #respond_to?" do
@@ -73,26 +73,26 @@ RSpec.describe Canister do
 
   it "allows nesting" do
     canister.register(:a) { "a" }
-    canister.register(:b) {|c| c.a + "b" }
-    canister.register(:c) {|c| c.b + "c" }
+    canister.register(:b) { |c| c.a + "b" }
+    canister.register(:c) { |c| c.b + "c" }
     expect(canister.resolve(:c)).to eql("abc")
   end
 
   it "allows a complex tree" do
     canister.register(:a) { "a" }
-    canister.register(:b1) {|c| c.a + "b1" }
-    canister.register(:b2) {|c| c.a + "b2" }
-    canister.register(:c) {|c| c.b1 + c.b2 + "c" }
+    canister.register(:b1) { |c| c.a + "b1" }
+    canister.register(:b2) { |c| c.a + "b2" }
+    canister.register(:c) { |c| c.b1 + c.b2 + "c" }
     expect(canister.resolve(:c)).to eql("ab1ab2c")
   end
 
   it "resets the dependency sequence on reregister" do
     canister.register(:a) { "a" }
-    canister.register(:b) {|c| c.a + "b" }
-    canister.register(:c) {|c| c.b + "c" }
-    canister.register(:d) {|c| c.c + "d" }
-    canister.register(:e) {|c| c.d + "e" }
-    canister.register(:f) {|c| c.e + "f" }
+    canister.register(:b) { |c| c.a + "b" }
+    canister.register(:c) { |c| c.b + "c" }
+    canister.register(:d) { |c| c.c + "d" }
+    canister.register(:e) { |c| c.d + "e" }
+    canister.register(:f) { |c| c.e + "f" }
     canister.resolve(:f)
     canister.register(:a) { "x" }
     expect(canister.resolve(:f)).to eql("xbcdef")
@@ -100,17 +100,17 @@ RSpec.describe Canister do
 
   it "resets the dependency tree on reregister" do
     canister.register(:a) { "a" }
-    canister.register(:b1) {|c| c.a + "b1" }
-    canister.register(:b2) {|c| c.a + "b2" }
-    canister.register(:c) {|c| c.b1 + c.b2 + "c" }
+    canister.register(:b1) { |c| c.a + "b1" }
+    canister.register(:b2) { |c| c.a + "b2" }
+    canister.register(:c) { |c| c.b1 + c.b2 + "c" }
     canister.resolve(:c)
     canister.register(:a) { "x" }
     expect(canister.resolve(:c)).to eql("xb1xb2c")
   end
 
   it "ignores order" do
-    canister.register(:c) {|c| c.b + "c" }
-    canister.register(:b) {|c| c.a + "b" }
+    canister.register(:c) { |c| c.b + "c" }
+    canister.register(:b) { |c| c.a + "b" }
     canister.register(:a) { "a" }
     expect(canister.resolve(:c)).to eql("abc")
   end
