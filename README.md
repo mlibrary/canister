@@ -82,11 +82,11 @@ Standard rules apply.
 
 ## Compatibility
 
-* ruby 2.3.x
-* ruby 2.4.x
-* ruby 2.5.x
-* ruby 2.6.x
-* ruby 2.7.x
+Canister has been tested on the following:
+
+* ruby >= 2.3.x
+* ruby >= 3.x
+* jruby 9.4.2.0 (3.1.0)
 
 As Canister does not rely on any specific runtime environment other than
 the ruby core, it is compatible with every ruby library and framework.
