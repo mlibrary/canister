@@ -7,7 +7,6 @@ require "canister/version"
 # automatic dependency resolution, and--upon
 # redeclaration--automatic dependency cache invalidation.
 class Canister
-
   def initialize
     @stack = []
     @registry = {}
@@ -105,10 +104,9 @@ class Canister
   def invalidate(key, first = true)
     unresolve(key)
     dependents[key]
-      .each {|child| invalidate(child, false) }
+      .each { |child| invalidate(child, false) }
     if first
       dependents.delete(key)
     end
   end
-
 end
