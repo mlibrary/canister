@@ -157,6 +157,19 @@ RSpec.describe Canister do
         end
         expect(canister.resolve(:c)).to eql("abc")
       end
+
+      it "overrides with a change in the stack" do
+        expect(canister.resolve(:c)).to eql("abc")
+        canister.push_context!
+        canister.register(:b) { |c| c.a + "B" }
+        canister.register(:c) { |c| c.d + "c" }
+        canister.register (:d) { |c| c.b + "D" }
+        expect(canister.c).to eql("aBDc")
+        canister.pop_context!
+        expect(canister.resolve(:c)).to eql("abc")
+
+      end
+
     end
 
     describe "override in rspec 'around'" do
@@ -169,6 +182,13 @@ RSpec.describe Canister do
       it "overrides with 'around'" do
         canister.register(:b) { |c| c.a + "OVERRIDE" }
         expect(canister.c).to eql("aOVERRIDEc")
+      end
+
+      it "overrides with a change in the stack" do
+        canister.register(:b) { |c| c.a + "B" }
+        canister.register(:c) { |c| c.d + "c" }
+        canister.register (:d) { |c| c.b + "D" }
+        expect(canister.c).to eql("aBDc")
       end
     end
 

@@ -74,6 +74,27 @@ container.wait    #=> 27
 # Caches are invalidated automatically
 container.register(:foo) { "oof" }
 container.bar     #=> "oofbar"
+
+
+# Temporarily override
+
+container = Canister.new
+container.register(:a) { "a" }.register(:b) {|c| c.a + "b" }.register(:c) {|c| c.b + "c"}
+container.c #=> "abc"
+container.push_context!
+container.register(:a) { "Z" }
+container.c #=> "abZ"
+container.pop_context!
+container.c #=> "abc"
+
+# Or override within a block
+
+container.override do
+  container.register(:b) {|c| c.a + "Z" }
+  container.c #=> "aZc"
+end
+
+
 ```
 
 ## Contributing

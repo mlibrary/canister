@@ -10,7 +10,7 @@ class Canister < SimpleDelegator
 
   def initialize(&blk)
     @context_stack = []
-    _push_context(new_context: Context.new)
+    push_context!(new_context: Context.new)
     yield self if block_given?
   end
 
@@ -23,16 +23,16 @@ class Canister < SimpleDelegator
   # Push a new (presumably temporary) context onto the stack from which to resolve values
   # @param new_context [Context] The new context; by default, just a copy of the current registry
   # @return [Canister] self
-  def _push_context(new_context: @context.dup)
+  def push_context!(new_context: @context.dup)
     @context_stack.push(new_context)
     @context = @context_stack.last
     __setobj__(@context)
     self
   end
 
-  # Pop a context off the stack, returning the resolution context to what it was before the last #_push_context
+  # Pop a context off the stack, returning the resolution context to what it was before the last #push_context
   # @return [Canister] self
-  def _pop_context
+  def pop_context!
     raise "Can't pop context_stack if there's only one thing in it" unless @context_stack.size > 1
     @context_stack.pop
     @context = @context_stack.last
@@ -43,9 +43,9 @@ class Canister < SimpleDelegator
   # NOT THREAD SAFE. NOT EVEN A LITTLE.
   # @return [Canister] self
   def override(&blk)
-    _push_context
+    push_context!
     blk.call
-    _pop_context
+    pop_context!
     self
   end
 
