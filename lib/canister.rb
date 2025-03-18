@@ -79,9 +79,19 @@ class Canister
     registry.keys
   end
 
+  def clone_self
+    n = self.class.new
+    n.dependents = dup_hash(dependents)
+    n.registry = dup_hash(registry)
+    n.resolved = dup_hash(resolved)
+    n.stack = stack.map(&:dup)
+    n
+  end
+
+  attr_accessor :dependents, :registry, :resolved, :stack
+
   private
 
-  attr_reader :dependents, :registry, :resolved, :stack
 
   def handles?(method)
     registered?(method)
@@ -108,5 +118,20 @@ class Canister
     if first
       dependents.delete(key)
     end
+  end
+
+  def dup_hash(h)
+    newhash = h.dup
+    h.each_pair do |k, v|
+      nv = if v.is_a? Array
+             v.map(&:dup)
+           elsif v.is_a? Hash
+             dup_hash(v)
+           else
+             v.dup
+           end
+      newhash[k.dup] = nv
+    end
+    newhash
   end
 end

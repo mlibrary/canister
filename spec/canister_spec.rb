@@ -2,8 +2,9 @@
 
 require_relative "spec_helper"
 require "canister"
+require "canister_stack"
 
-RSpec.describe Canister do
+RSpec.shared_examples "a canister" do
   let(:canister) { described_class.new }
 
   it "has a version number" do
@@ -134,4 +135,12 @@ RSpec.describe Canister do
     expect(canister.resolve(:b)).to eql("b")
     threads.each(&:kill)
   end
+end
+
+RSpec.describe Canister do
+  it_should_behave_like "a canister"
+end
+
+RSpec.describe OverridableCanister do
+  it_should_behave_like "a canister"
 end
