@@ -2,7 +2,7 @@
 
 require_relative "spec_helper"
 require "canister"
-require "canister_stack"
+require "overridable_canister"
 
 RSpec.shared_examples "a canister" do
   let(:canister) { described_class.new }

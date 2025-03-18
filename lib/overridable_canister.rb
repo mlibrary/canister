@@ -50,7 +50,7 @@ class OverridableCanister < SimpleDelegator
     yield self if block_given?
   end
 
-  #@overload register(key, &block)
+  # @overload register(key, &block)
   # Overloaded so it can return self (meaning the OverridableCanister, not the
   # Canister that took the registration)
   def register(key, &block)
