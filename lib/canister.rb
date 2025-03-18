@@ -31,7 +31,7 @@ class Canister
   # We override respond_to? to enable dot notation
   # for accessing registered values.
   def respond_to_missing?(method, include_all = false)
-    handles?(method) || super(method, include_all)
+    handles?(method) || super
   end
 
   def synchronize(&block)
@@ -81,9 +81,9 @@ class Canister
 
   def clone_self
     n = self.class.new
-    n.dependents = dup_hash(dependents)
-    n.registry = dup_hash(registry)
-    n.resolved = dup_hash(resolved)
+    n.dependents = dup_deeper(dependents)
+    n.registry = dup_deeper(registry)
+    n.resolved = dup_deeper(resolved)
     n.stack = stack.map(&:dup)
     n
   end
@@ -91,7 +91,6 @@ class Canister
   attr_accessor :dependents, :registry, :resolved, :stack
 
   private
-
 
   def handles?(method)
     registered?(method)
@@ -120,16 +119,16 @@ class Canister
     end
   end
 
-  def dup_hash(h)
+  def dup_deeper(h)
     newhash = h.dup
     h.each_pair do |k, v|
       nv = if v.is_a? Array
-             v.map(&:dup)
-           elsif v.is_a? Hash
-             dup_hash(v)
-           else
-             v.dup
-           end
+        v.map(&:dup)
+      elsif v.is_a? Hash
+        dup_deeper(v)
+      else
+        v.dup
+      end
       newhash[k.dup] = nv
     end
     newhash
