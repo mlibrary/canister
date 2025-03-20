@@ -134,4 +134,29 @@ RSpec.describe Canister do
     expect(canister.resolve(:b)).to eql("b")
     threads.each(&:kill)
   end
+
+  it "can be seeded with a hashlike" do
+    h = { a: 1, b: 2, c: proc { |a| "Hello #{a}" } }
+    c = described_class.new(h)
+    expect(c.a).to eq(1)
+    expect(c.c.call("Bill")).to eq("Hello Bill")
+  end
+
+  # Since a canister fulfills the requirements for a hashlike,
+  # we can merge canisters as well
+  it "can merge another canister" do
+    c1 = described_class.new do |c|
+      c.register(:a) { 1 }
+      c.register(:b) { 2 }
+    end
+    c2 = described_class.new do |c|
+      c.register(:b) { 3 }
+      c.register(:d) { 4 }
+    end
+    c = c1.merge(c2)
+    expect(c.a).to eq(1)
+    expect(c.b).to eq(3)
+    expect(c.d).to eq(4)
+  end
 end
+
