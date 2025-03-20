@@ -6,8 +6,10 @@ require "canister/version"
 # resolved at runtime. This allows for out-of-order declaration,
 # automatic dependency resolution, and--upon
 # redeclaration--automatic dependency cache invalidation.
+# @param hashlike [#each_pair, #keys #[]]
+# @see #fill_from_hashlike
 class Canister
-  def initialize
+  def initialize(hashlike = nil)
     @stack = []
     @registry = {}
     @resolved = {}
@@ -15,7 +17,34 @@ class Canister
       hash[key] = []
     end
     @mutex = Mutex.new
+    if hashlike
+      self.fill_from_hashlike(hashlike)
+    end
     yield self if block_given?
+  end
+
+  # A "hashlike" is defined as anything that responds to both #[]
+  # and #keys and/or #each_pair
+  # Each value is wrapped in a `proc` and registered under the key.
+  # Note that Canister doesn't differentiate between symbols and
+  # strings for keys, so if your hashlike has keys of, e.g. both
+  # `"a"` and `:a` it won't work.
+  def fill_from_hashlike(hashlike)
+    iter = if hashlike.respond_to?(:each_pair)
+             hashlike.each_pair
+           else
+             if [:[], :keys].all? { |meth| hashlike.respond_to?(:meth) }
+               hashlike.lazy.keys.map { |k| [k, hashlike[h]] }
+             else
+               msg = "Need something that responds to either #each_pair or both #keys and #[]"
+               raise ArgumentError.new(msg)
+             end
+           end
+    iter.each do |k, v|
+      blk = proc { v }
+      register(k, &blk)
+    end
+    self
   end
 
   # We override method_missing to enable dot notation

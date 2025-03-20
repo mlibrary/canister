@@ -134,4 +134,11 @@ RSpec.describe Canister do
     expect(canister.resolve(:b)).to eql("b")
     threads.each(&:kill)
   end
+
+  it "can be seeded with a hashlike" do
+    h = {a: 1, b: 2, c: proc{|a| "Hello #{a}"}}
+    c = described_class.new(h)
+    expect(c.a).to eq(1)
+    expect(c.c.call("Bill")).to eq("Hello Bill")
+  end
 end
