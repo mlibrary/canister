@@ -29,7 +29,7 @@ class Canister
   # Note that Canister doesn't differentiate between symbols and
   # strings for keys, so if your hashlike has keys of, e.g. both
   # `"a"` and `:a` it won't work.
-  def fill_from_hashlike(hashlike)
+  def merge_from_hashlike(hashlike)
     iter = if hashlike.respond_to?(:each_pair)
              hashlike.each_pair
            else
@@ -46,6 +46,8 @@ class Canister
     end
     self
   end
+
+  alias_method :merge, :merge_from_hashlike
 
   # We override method_missing to enable dot notation
   # for accessing registered values.
