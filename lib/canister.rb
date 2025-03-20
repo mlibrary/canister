@@ -18,7 +18,7 @@ class Canister
     end
     @mutex = Mutex.new
     if hashlike
-      self.fill_from_hashlike(hashlike)
+      self.merge_from_hashlike(hashlike)
     end
     yield self if block_given?
   end
@@ -33,8 +33,8 @@ class Canister
     iter = if hashlike.respond_to?(:each_pair)
              hashlike.each_pair
            else
-             if [:[], :keys].all? { |meth| hashlike.respond_to?(:meth) }
-               hashlike.lazy.keys.map { |k| [k, hashlike[h]] }
+             if [:[], :keys].all? { |meth| hashlike.respond_to?(meth) }
+               hashlike.keys.lazy.map { |k| [k, hashlike[k]] }
              else
                msg = "Need something that responds to either #each_pair or both #keys and #[]"
                raise ArgumentError.new(msg)
@@ -104,6 +104,7 @@ class Canister
     end
     value
   end
+
   alias_method :[], :resolve
 
   def keys
